@@ -16,8 +16,7 @@ public interface MobileConfig extends Config {
   @Key("deviceVersion")
   String getDeviceVersion();
 
-@Key("appUrl")
+  @Key("appUrl")
   String getAppUrl();
-
 
 }

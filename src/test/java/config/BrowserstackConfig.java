@@ -17,5 +17,4 @@ public interface BrowserstackConfig extends Config {
   @Key("name")
   String getName();
 
-
 }

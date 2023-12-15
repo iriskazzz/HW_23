@@ -14,5 +14,4 @@ public interface UserConfig extends Config {
   @Key("accessKey")
   String getAccessKey();
 
-
 }
