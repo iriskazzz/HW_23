@@ -5,12 +5,6 @@ import org.junit.jupiter.api.Test;
 import pages.SearchPage;
 import pages.VikiPage;
 
-import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
-import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.$$;
-import static io.appium.java_client.AppiumBy.accessibilityId;
-import static io.appium.java_client.AppiumBy.id;
 import static io.qameta.allure.Allure.step;
 
 public class AndroidSearchTests extends TestBase {
@@ -18,16 +12,20 @@ public class AndroidSearchTests extends TestBase {
   private SearchPage searchPage = new SearchPage();
   private VikiPage vikiPage = new VikiPage();
 
+  private final static String SEARCH_VALUE = "Appium";
+  private final static String ERROR_TEXT_VALUE = "An error occurred";
+  private final static String ERROR_BUTTON_NAME = "GO BACK";
+
   @Test
   @DisplayName("Проверка успешной работы поиска")
   void successfulSearchTest() {
     step("Ввод значения Appium в строку поиска", () -> {
-      $(accessibilityId("Search Wikipedia")).click();
-      $(id("org.wikipedia.alpha:id/search_src_text")).sendKeys("Appium");
+            searchPage.clickOnFirstSearch()
+              .clickOnSecondSearch(SEARCH_VALUE);
     });
     step("Проверка, что открывшийся список больше нуля", () ->
-            $$(id("org.wikipedia.alpha:id/page_list_item_title"))
-                    .shouldHave(sizeGreaterThan(0)));
+            searchPage.checkNotNull()
+    );
   }
 
   @Test
@@ -35,15 +33,15 @@ public class AndroidSearchTests extends TestBase {
   void checkErrorTextTest() {
     step("Ввод значения Appium в строку поиска", () -> {
               searchPage.clickOnFirstSearch()
-              .clickOnSecondSearch("Appium");
+              .clickOnSecondSearch(SEARCH_VALUE);
     });
     step("Клик по строке поиска с содержанием текста введенного запроса", () -> {
-              searchPage.clickOnLineSearch("Appium");
+              searchPage.clickOnLineSearch(SEARCH_VALUE);
             }
     );
     step("Проверка видимости сообщения об ошибке", () -> {
-              vikiPage.checkErrorText("An error occurred")
-                      .checkErrorButton("GO BACK");
+              vikiPage.checkErrorText(ERROR_TEXT_VALUE)
+                      .checkErrorButton(ERROR_BUTTON_NAME);
             }
     );
   }
