@@ -3,14 +3,16 @@ package tests;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pages.SearchPage;
-import pages.VikiPage;
+import pages.SearchResultPage;
+import pages.ArticlePage;
 
 import static io.qameta.allure.Allure.step;
 
 public class AndroidSearchTests extends TestBase {
 
   private SearchPage searchPage = new SearchPage();
-  private VikiPage vikiPage = new VikiPage();
+  private SearchResultPage searchResultPage = new SearchResultPage();
+  private ArticlePage articlePage = new ArticlePage();
 
   private final static String SEARCH_VALUE = "Appium";
   private final static String ERROR_TEXT_VALUE = "An error occurred";
@@ -24,7 +26,7 @@ public class AndroidSearchTests extends TestBase {
               .clickOnSecondSearch(SEARCH_VALUE);
     });
     step("Проверка, что открывшийся список больше нуля", () ->
-            searchPage.checkNotNull()
+            searchResultPage.checkNotNull()
     );
   }
 
@@ -36,11 +38,11 @@ public class AndroidSearchTests extends TestBase {
               .clickOnSecondSearch(SEARCH_VALUE);
     });
     step("Клик по строке поиска с содержанием текста введенного запроса", () -> {
-              searchPage.clickOnLineSearch(SEARCH_VALUE);
+      searchResultPage.clickOnLineSearch(SEARCH_VALUE);
             }
     );
     step("Проверка видимости сообщения об ошибке", () -> {
-              vikiPage.checkErrorText(ERROR_TEXT_VALUE)
+              articlePage.checkErrorText(ERROR_TEXT_VALUE)
                       .checkErrorButton(ERROR_BUTTON_NAME);
             }
     );
